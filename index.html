@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="am">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1020">
+<title>LINGUA PRO · Coding AI</title>
+<style>
+:root{--bg:#0b1020;--panel:#151d35;--panel2:#1c2744;--text:#f4f6ff;--muted:#aab4d0;--accent:#8b7cff;--accent2:#43d6c5;--line:#2a3658;--warn:#f4dfaa}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at top right,#22204d 0,#0b1020 42%) fixed;color:var(--text);font:16px system-ui,-apple-system,"Noto Sans Ethiopic","Segoe UI",sans-serif;min-height:100vh}
+.wrap{max-width:900px;margin:auto;padding:16px 14px 40px}
+header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;color:#091021;font-weight:900;font-size:21px}
+h1{font-size:20px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:3px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.tab{border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:12px 6px;border-radius:13px;font:inherit;font-weight:650;cursor:pointer}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.tab:focus-visible,button:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
+.panel{background:rgba(21,29,53,.94);border:1px solid var(--line);border-radius:20px;padding:16px}
+.hidden{display:none!important}
+.setup{background:#10182e;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.setup h3{margin:0 0 6px;font-size:17px}
+.hint{color:var(--muted);font-size:13px;line-height:1.55;margin:0 0 10px}
+select{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:11px;width:100%;font:inherit;margin-bottom:10px}
+.primary{background:linear-gradient(135deg,var(--accent),#6656d9);color:#fff;border:0;border-radius:13px;padding:12px 17px;font:inherit;font-weight:700;cursor:pointer}
+.primary:disabled{opacity:.5}
+.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:7px 11px;font:inherit;font-size:13px;cursor:pointer}
+.bar{height:10px;background:#0d1428;border-radius:99px;overflow:hidden;margin:10px 0 6px;border:1px solid var(--line)}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .2s}
+.small{font-size:12px;color:var(--muted);line-height:1.5;word-break:break-word}
+.warn{margin-top:10px;padding:11px;border-radius:12px;background:#302a19;border:1px solid #5d4b25;color:var(--warn);font-size:13px;line-height:1.5}
+.chatbox{height:min(52vh,460px);overflow:auto;background:#0d1428;border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px}
+.bubble{padding:10px 12px;border-radius:14px;margin:8px 0;max-width:96%;line-height:1.55;font-size:14.5px;overflow-wrap:anywhere}
+.bot{background:#202b4a;border-top-left-radius:4px}
+.user{background:#5146a5;margin-left:auto;border-top-right-radius:4px;white-space:pre-wrap}
+.bubble p{margin:0 0 8px;white-space:pre-wrap}.bubble p:last-child{margin:0}
+.code{margin:8px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#070b18}
+.code .head{display:flex;gap:6px;align-items:center;justify-content:space-between;padding:6px 8px;background:#10182e;font-size:12px;color:var(--muted)}
+.code .head div{display:flex;gap:6px}
+.code pre{margin:0;padding:10px;overflow:auto;font:12.5px/1.5 ui-monospace,Menlo,Consolas,monospace;color:#d8e2ff;max-height:320px;white-space:pre}
+.entry{display:flex;gap:8px}
+textarea{resize:vertical;min-height:50px;max-height:140px;flex:1;background:#0d1428;color:var(--text);border:1px solid var(--line);border-radius:13px;padding:12px;font:inherit}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
+.chip{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:99px;padding:7px 12px;font:inherit;font-size:13px;cursor:pointer}
+.ex{background:#10182e;border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:10px}
+.ex strong{display:block;margin-bottom:4px}
+.ex .row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+dialog{width:min(96vw,800px);height:80vh;border:1px solid var(--line);border-radius:16px;background:var(--panel);color:var(--text);padding:10px}
+dialog::backdrop{background:rgba(0,0,0,.65)}
+dialog iframe{width:100%;height:calc(100% - 46px);border:0;background:#fff;border-radius:10px}
+dialog .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+@media(max-width:480px){.entry{flex-direction:column}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="logo">L</div>
+  <div><h1>LINGUA PRO</h1><div class="sub">ኦፍላይን የኮድ ረዳት · HTML · CSS · JavaScript</div></div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="chat">💻 የኮድ ረዳት</button>
+  <button class="tab" data-tab="examples">📚 ዝግጁ ምሳሌዎች</button>
+</nav>
+
+<section class="panel" id="chat">
+  <div class="setup" id="setup">
+    <h3>ረዳቱን አዘጋጅ</h3>
+    <p class="hint">ሞዴሉ በስልክህ ውስጥ ነው የሚሰራው። መጀመሪያ ጊዜ ብቻ ኢንተርኔት ያስፈልጋል (ማውረድ)፤ ከዚያ በኋላ ያለ ኢንተርኔት ይሰራል።</p>
+    <select id="model" aria-label="ሞዴል">
+      <option value="Qwen2.5-Coder-0.5B-Instruct-q4f16_1-MLC">ትንሽ እና ፈጣን (~0.5B · ወደ 400 MB)</option>
+      <option value="Qwen2.5-Coder-1.5B-Instruct-q4f16_1-MLC">የተሻለ ጥራት (~1.5B · ወደ 1 GB)</option>
+    </select>
+    <button class="primary" id="load">ሞዴሉን አውርድ / ጀምር</button>
+    <div class="bar hidden" id="barwrap"><i id="bar"></i></div>
+    <div class="small" id="status"></div>
+    <div class="warn hidden" id="gpuwarn"></div>
+  </div>
+
+  <div class="chips" id="chips">
+    <button class="chip" data-q="Make a button that counts clicks. Single HTML file.">የጠቅታ ቆጣሪ</button>
+    <button class="chip" data-q="Make a simple to-do list with add and delete. Single HTML file.">የስራ ዝርዝር</button>
+    <button class="chip" data-q="Make a login form with JavaScript validation. Single HTML file.">ፎርም ማረጋገጫ</button>
+  </div>
+  <div class="chatbox" id="chatbox" aria-live="polite">
+    <div class="bubble bot"><p>ሰላም! የHTML፣ CSS ወይም JavaScript ጥያቄህን ጻፍ። ኮዱን እሰጥሃለሁ፣ በአማርኛም አብራራለሁ። ከታች ባለው «ሩጫ» ቁልፍ ኮዱን እዚያው መሞከር ትችላለህ።</p></div>
+  </div>
+  <div class="entry">
+    <textarea id="msg" rows="2" placeholder="ጥያቄህን እዚህ ጻፍ... (እንግሊዝኛ ወይም አማርኛ)" disabled></textarea>
+    <button class="primary" id="send" disabled>ላክ</button>
+  </div>
+  <div class="small" style="margin-top:8px">ትንሽ ሞዴል ስለሆነ ቀላል እና መካከለኛ ኮድ ላይ ጥሩ ነው። ኮዱን ሁልጊዜ ሞክረህ አረጋግጥ።</div>
+</section>
+
+<section class="panel hidden" id="examples">
+  <p class="hint">እነዚህ ሁልጊዜ ያለ ኢንተርኔት እና ያለ ሞዴል ይሰራሉ።</p>
+  <div id="exlist"></div>
+</section>
+</div>
+
+<dialog id="runner">
+  <div class="top"><strong>የኮድ ውጤት</strong><button class="secondary" id="closeRun">ዝጋ</button></div>
+  <iframe id="frame" sandbox="allow-scripts" title="ውጤት"></iframe>
+</dialog>
+
+<script>
+/* ---------- Service worker (offline shell) ---------- */
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+
+/* ---------- Helpers ---------- */
+const $=s=>document.querySelector(s);
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));
+  $('#chat').classList.toggle('hidden',b.dataset.tab!=='chat');
+  $('#examples').classList.toggle('hidden',b.dataset.tab!=='examples');
+});
+
+/* ---------- Code run / copy ---------- */
+function runCode(code){
+  let html=code;
+  if(!/<\s*(html|body|script|style|div|button|p|h1|form|input|canvas)/i.test(code)){
+    html='<!doctype html><meta charset="utf-8"><body><script>'+code+'<\/script>';
+  }
+  $('#frame').srcdoc=html;
+  $('#runner').showModal();
+}
+$('#closeRun').onclick=()=>{$('#runner').close();$('#frame').srcdoc=''};
+async function copyCode(code,btn){
+  try{await navigator.clipboard.writeText(code);btn.textContent='ተቀድቷል ✓'}
+  catch(e){btn.textContent='አልተቻለም'}
+  setTimeout(()=>btn.textContent='ቅዳ',1500);
+}
+const store=[];
+function codeBlock(lang,code){
+  const id=store.push(code)-1;
+  return '<div class="code"><div class="head"><span>'+esc(lang||'code')+'</span><div>'+
+    '<button class="secondary" data-act="copy" data-id="'+id+'">ቅዳ</button>'+
+    '<button class="secondary" data-act="run" data-id="'+id+'">ሩጫ ▶</button></div></div><pre>'+esc(code)+'</pre></div>';
+}
+function render(text){
+  const parts=text.split('```');
+  let out='';
+  parts.forEach((p,i)=>{
+    if(i%2===0){ if(p.trim()) out+='<p>'+esc(p.trim())+'</p>'; }
+    else{
+      const nl=p.indexOf('\n');
+      const lang=nl>-1?p.slice(0,nl).trim():'';
+      const code=nl>-1?p.slice(nl+1):p;
+      out+=codeBlock(lang,code.replace(/\n$/,''));
+    }
+  });
+  return out;
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]'); if(!b) return;
+  const code=store[+b.dataset.id];
+  if(b.dataset.act==='run') runCode(code); else copyCode(code,b);
+});
+
+/* ---------- WebLLM ---------- */
+const WEBLLM_URL='https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.79/+esm';
+const SYSTEM='You are LINGUA PRO, an offline coding assistant for HTML, CSS and JavaScript. '+
+ 'Explain briefly in Amharic (አማርኛ). Write all code and code comments in English. '+
+ 'When asked to build something, give ONE complete working single-file HTML example (HTML, CSS and JS together) inside a single ```html code block. '+
+ 'Keep answers short and simple. Do not invent APIs.';
+let engine=null,busy=false;
+const history=[{role:'system',content:SYSTEM}];
+
+if(!('gpu' in navigator)){
+  const w=$('#gpuwarn');w.classList.remove('hidden');
+  w.textContent='ይህ ብሮውዘር ወይም ስልክ WebGPU አይደግፍም፤ AI ሞዴሉ ላይሰራ ይችላል። Chrome ወይም Edge አዲስ ስሪት ሞክር። «ዝግጁ ምሳሌዎች» ትር ግን ይሰራል።';
+}
+
+$('#load').onclick=async()=>{
+  const btn=$('#load');btn.disabled=true;
+  $('#barwrap').classList.remove('hidden');
+  $('#status').textContent='በመጀመር ላይ...';
+  try{
+    const webllm=await import(WEBLLM_URL);
+    engine=await webllm.CreateMLCEngine($('#model').value,{
+      initProgressCallback:r=>{
+        $('#bar').style.width=Math.round((r.progress||0)*100)+'%';
+        $('#status').textContent=r.text||'';
+      }
+    });
+    $('#setup').classList.add('hidden');
+    $('#msg').disabled=false;$('#send').disabled=false;$('#msg').focus();
+  }catch(err){
+    btn.disabled=false;
+    $('#status').textContent='አልተሳካም፦ '+(err&&err.message?err.message:err)+' — ኢንተርኔት፣ የስልክ ቦታ እና WebGPU ድጋፍ አረጋግጥ፤ ትንሹን ሞዴል ሞክር።';
+  }
+};
+
+function addBubble(cls,html){
+  const d=document.createElement('div');d.className='bubble '+cls;d.innerHTML=html;
+  $('#chatbox').appendChild(d);$('#chatbox').scrollTop=1e9;return d;
+}
+async function ask(q){
+  if(!engine||busy||!q.trim())return;
+  busy=true;$('#send').disabled=true;
+  addBubble('user',esc(q));
+  history.push({role:'user',content:q});
+  const bub=addBubble('bot','<p>…</p>');
+  let acc='';
+  try{
+    const stream=await engine.chat.completions.create({messages:[history[0],...history.slice(1).slice(-6)],stream:true,temperature:0.3,max_tokens:1400});
+    for await(const ch of stream){
+      acc+=ch.choices[0]?.delta?.content||'';
+      bub.innerHTML=render(acc);$('#chatbox').scrollTop=1e9;
+    }
+    history.push({role:'assistant',content:acc});
+    if(history.length>9)history.splice(1,2);
+  }catch(err){bub.innerHTML='<p>ስህተት፦ '+esc(String(err&&err.message||err))+'</p>'}
+  busy=false;$('#send').disabled=false;
+}
+$('#send').onclick=()=>{const q=$('#msg').value;$('#msg').value='';ask(q)};
+$('#msg').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();$('#send').click()}});
+$('#chips').onclick=e=>{const c=e.target.closest('.chip');if(c&&engine)ask(c.dataset.q);else if(c)$('#status').textContent='መጀመሪያ ሞዴሉን አውርድ።'};
+
+/* ---------- Offline examples ---------- */
+const EXAMPLES=[
+{t:'የጠቅታ ቆጣሪ',d:'አንድ ቁልፍ ሲጫን ቁጥር ይጨምራል። onclick እና getElementById ያሳያል።',
+c:`<button id="b" onclick="n++;document.getElementById('b').textContent='ጠቅታ: '+n" style="font-size:22px;padding:14px 20px">ጠቅታ: 0</button>
+<script>let n=0;<\/script>`},
+{t:'የስራ ዝርዝር (To-do)',d:'ስራ መጨመር እና መሰረዝ። createElement እና addEventListener ያሳያል።',
+c:`<input id="i" placeholder="ስራ ጻፍ" style="padding:10px">
+<button onclick="add()" style="padding:10px">ጨምር</button>
+<ul id="l"></ul>
+<script>
+function add(){
+  const v=document.getElementById('i').value.trim();
+  if(!v) return;
+  const li=document.createElement('li');
+  li.textContent=v+' ';
+  const x=document.createElement('button');
+  x.textContent='ሰርዝ';
+  x.onclick=()=>li.remove();
+  li.appendChild(x);
+  document.getElementById('l').appendChild(li);
+  document.getElementById('i').value='';
+}
+<\/script>`},
+{t:'ፎርም ማረጋገጫ',d:'ኢሜይል እና የይለፍ ቃል ርዝመት ይፈትሻል። ቀላል validation ያሳያል።',
+c:`<input id="e" placeholder="email" style="padding:10px;display:block;margin:6px 0">
+<input id="p" type="password" placeholder="password (min 6)" style="padding:10px;display:block;margin:6px 0">
+<button onclick="check()" style="padding:10px">ግባ</button>
+<p id="m"></p>
+<script>
+function check(){
+  const e=document.getElementById('e').value;
+  const p=document.getElementById('p').value;
+  const m=document.getElementById('m');
+  if(!e.includes('@')) m.textContent='ኢሜይሉ ትክክል አይደለም';
+  else if(p.length<6) m.textContent='የይለፍ ቃል ቢያንስ 6 ፊደል';
+  else m.textContent='✓ ተሳክቷል';
+}
+<\/script>`},
+{t:'ካልኩሌተር',d:'ሁለት ቁጥር ጨምሮ፣ ቀንሶ፣ አባዝቶ ወይም ተካፍሎ ውጤት ያሳያል።',
+c:`<input id="a" type="number" style="padding:10px;width:90px"> 
+<select id="o" style="padding:10px"><option>+</option><option>-</option><option>*</option><option>/</option></select>
+<input id="b" type="number" style="padding:10px;width:90px">
+<button onclick="calc()" style="padding:10px">=</button>
+<h2 id="r"></h2>
+<script>
+function calc(){
+  const a=parseFloat(document.getElementById('a').value);
+  const b=parseFloat(document.getElementById('b').value);
+  const o=document.getElementById('o').value;
+  let r;
+  if(o==='+') r=a+b; else if(o==='-') r=a-b; else if(o==='*') r=a*b; else r=b===0?'በ0 መካፈል አይቻልም':a/b;
+  document.getElementById('r').textContent=r;
+}
+<\/script>`},
+{t:'ጨለማ / ብርሃን ገጽታ',d:'CSS variable እና classList.toggle በመጠቀም ገጽታ ይቀይራል።',
+c:`<style>
+:root{--bg:#fff;--fg:#111}
+body.dark{--bg:#111;--fg:#fff}
+body{background:var(--bg);color:var(--fg);font:20px sans-serif;padding:24px;transition:.2s}
+</style>
+<p>ሰላም ዓለም!</p>
+<button onclick="document.body.classList.toggle('dark')" style="padding:10px 16px">ገጽታ ቀይር</button>`},
+{t:'የሰዓት ቆጣሪ (Timer)',d:'setInterval በመጠቀም ሰከንዶችን ይቆጥራል፤ ጀምር እና አቁም አለው።',
+c:`<h1 id="t">0</h1>
+<button onclick="start()" style="padding:10px">ጀምር</button>
+<button onclick="stop()" style="padding:10px">አቁም</button>
+<script>
+let s=0,id=null;
+function start(){ if(id) return; id=setInterval(()=>{s++;document.getElementById('t').textContent=s},1000) }
+function stop(){ clearInterval(id); id=null }
+<\/script>`}
+];
+$('#exlist').innerHTML=EXAMPLES.map(e=>{
+  const id=store.push(e.c)-1;
+  return '<div class="ex"><strong>'+esc(e.t)+'</strong><div class="small">'+esc(e.d)+'</div><div class="row">'+
+  '<button class="secondary" data-act="run" data-id="'+id+'">ሩጫ ▶</button>'+
+  '<button class="secondary" data-act="copy" data-id="'+id+'">ቅዳ</button></div></div>';
+}).join('');
+</script>
+</body>
+</html>
